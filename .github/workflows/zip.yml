@@ -1,0 +1,15 @@
+name: CI for zip project
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  zip:
+    name: zip
+    runs-on: ubuntu-latest
+    steps:
+      - name: Zip file
+        run: |
+          ls -l
+#          zip -r src/
