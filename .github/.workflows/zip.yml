@@ -1,0 +1,16 @@
+name: CI for zip project
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  zip:
+    name: zip
+    runs-on: ubuntu-latest
+    steps:
+      - name: Zip file
+        run: |
+          sudo apt-get install zip
+          zip -r src.zip src
+          ls
