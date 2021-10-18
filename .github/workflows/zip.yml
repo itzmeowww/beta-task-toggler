@@ -9,7 +9,10 @@ jobs:
     name: zip
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Zip file
         run: |
           ls -l
-#          zip -r src/
+          zip -r src/
+          ls
