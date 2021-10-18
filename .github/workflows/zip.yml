@@ -11,7 +11,5 @@ jobs:
     steps:
       - name: Zip file
         run: |
-          ls
-          sudo apt-get install zip
-          zip -r src/
-          ls
+          ls -l
+#          zip -r src/
