@@ -1,5 +1,6 @@
 let toggleCompleteButton = document.getElementById("toggleComplete");
 toggleCompleteButton.innerHTML = `Toggle Completed Tasks`;
+toggleCompleteButton.title = `Toggle Completed Tasks`;
 
 toggleCompleteButton.addEventListener("click", async () => {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -12,6 +13,7 @@ toggleCompleteButton.addEventListener("click", async () => {
 
 let toggleIncompleteButton = document.getElementById("toggleIncomplete");
 toggleIncompleteButton.innerHTML = `Toggle Uncompleted Tasks`;
+toggleIncompleteButton.title = `Toggle Uncompleted Tasks`;
 
 toggleIncompleteButton.addEventListener("click", async () => {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -24,6 +26,7 @@ toggleIncompleteButton.addEventListener("click", async () => {
 
 let toggleAttemptButton = document.getElementById("toggleAttempt");
 toggleAttemptButton.innerHTML = `Toggle Attempted Tasks`;
+toggleAttemptButton.title = `Toggle Attempted Tasks`;
 
 toggleAttemptButton.addEventListener("click", async () => {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -36,6 +39,7 @@ toggleAttemptButton.addEventListener("click", async () => {
 
 let randomIncompleteButton = document.getElementById("randomIncomplete");
 randomIncompleteButton.innerHTML = `Random`;
+randomIncompleteButton.title = `Random`;
 
 randomIncompleteButton.addEventListener("click", async () => {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
