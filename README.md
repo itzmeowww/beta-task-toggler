@@ -2,13 +2,17 @@
 
 This extension helps you to hide/show tasks on https://beta.programming.in.th/.
 
-![img](./preview.png)
+![](./previews/preview.png)
+![](./previews/screenshot_1.jpg)
+![](./previews/screenshot_2.jpg)
+![](./previews/screenshot_3.jpg)
+![](./previews/screenshot_4.jpg)
 
 ## Installation
 
-: This extension is not published yet, you can install it by following the steps from https://developer.chrome.com/docs/extensions/mv3/getstarted/ below
+This extension is not published yet, you can install it by following these steps from https://developer.chrome.com/docs/extensions/mv3/getstarted/ below
 
-0. Download the file, extracts to a folder
+0. Download the `src.zip` file, extracts to a folder
 
 1. Open the Extension Management page by navigating to `chrome://extensions`.
    - Alternatively, open this page by clicking on the Extensions menu button and selecting Manage Extensions at the bottom of the menu.
