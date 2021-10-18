@@ -14,5 +14,5 @@ jobs:
       - name: Zip file
         run: |
           ls -l
-          zip -r src/
+          zip -r src.zip src/
           ls
