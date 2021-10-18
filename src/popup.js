@@ -1,4 +1,5 @@
 let toggleCompleteButton = document.getElementById("toggleComplete");
+let hidingCompleteTasks = false;
 toggleCompleteButton.innerHTML = `Toggle Completed Tasks`;
 
 toggleCompleteButton.addEventListener("click", async() => {
@@ -16,6 +17,7 @@ toggleCompleteButton.addEventListener("click", async() => {
 });
 
 let toggleIncompleteButton = document.getElementById("toggleIncomplete");
+let hidingIncompleteTasks = false;
 toggleIncompleteButton.innerHTML = `Toggle Incompleted Tasks`;
 
 toggleIncompleteButton.addEventListener("click", async() => {
@@ -33,6 +35,7 @@ toggleIncompleteButton.addEventListener("click", async() => {
 });
 
 let toggleAttemptButton = document.getElementById("toggleAttempt");
+let hidingAttemptTasks = false;
 toggleAttemptButton.innerHTML = `Toggle Attempted Tasks`;
 
 toggleAttemptButton.addEventListener("click", async() => {
