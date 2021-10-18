@@ -1,6 +1,8 @@
 # Extension for https://beta.programming.in.th/
 
-This extension helps you to hide/show tasks on https://beta.programming.in.th/.
+![](./previews/Marquee_promo_tile.jpg)
+
+This extension helps you to hide/show/random tasks on https://beta.programming.in.th/.
 
 ![](./previews/preview.png)
 ![](./previews/screenshot_1.jpg)
