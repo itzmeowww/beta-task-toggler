@@ -95,9 +95,15 @@ function toggleAttempt() {
 
 function randomIncomplete() {
     let incompleteTasks = document.getElementsByClassName("css-mxmbtq")
+    let attemptTasks = document.getElementsByClassName("css-1ifyzb");
     var arr = []
     for (let i = 0; i < incompleteTasks.length; ++i) {
         var str = incompleteTasks[i].innerHTML
+        var tmp = str.split("<")[2].split('a href="')[1].split('">')[0];
+        arr.push(tmp);
+    }
+    for (let i = 0; i < attemptTasks.length; ++i) {
+        var str = attemptTasks[i].innerHTML
         var tmp = str.split("<")[2].split('a href="')[1].split('">')[0];
         arr.push(tmp);
     }
