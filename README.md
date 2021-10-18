@@ -21,4 +21,4 @@ This extension is not published yet, you can install it by following these steps
 
 ## Contributions
 
-- `Random` from
+- `Random` feature from @MasterIceZ
