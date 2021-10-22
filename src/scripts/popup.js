@@ -23,14 +23,13 @@ function toggleByClassNames(hide, classes) {
   });
 }
 
-let randomOptions = {};
-
-chrome.storage.sync.get("randomOptions", function (res) {
-  randomOptions = res["randomOptions"];
-});
-
 const updateByTypes = async (types, toggle, updateText) => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  let [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+    url: "https://beta.programming.in.th/tasks",
+  });
+  if (tab == undefined) return;
 
   chrome.storage.sync.get("hiding", function (res) {
     types.forEach((type) => {
@@ -44,7 +43,12 @@ const updateByTypes = async (types, toggle, updateText) => {
 
       res["hiding"][type] = status;
 
-      if (updateText) updateButtonText(buttonIds[type], res["hiding"][type], buttonTexts[type]);
+      if (updateText)
+        updateButtonText(
+          buttonIds[type],
+          res["hiding"][type],
+          buttonTexts[type]
+        );
     });
     chrome.storage.sync.set({ hiding: res["hiding"] });
   });
@@ -89,26 +93,55 @@ randomIncompleteButton.title = `Random`;
 randomIncompleteButton.addEventListener("click", async () => {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: randomIncomplete,
-    args: [[classNames.attempted, classNames.uncompleted]],
+  let randomOptions = {};
+  let randomSources = {};
+  chrome.storage.sync.get(["randomOptions", "randomSources"], function (res) {
+    randomOptions = res["randomOptions"];
+    randomSources = res["randomSources"];
+    let classes = [];
+    if (randomOptions.randomCompleted) classes.push(classNames.completed);
+    if (randomOptions.randomUncompleted) classes.push(classNames.uncompleted);
+    if (randomOptions.randomAttempted) classes.push(classNames.attempted);
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: randomTask,
+      args: [classes, randomSources],
+    });
   });
 });
 
-function randomIncomplete(classes) {
-  var arr = [];
-
+function randomTask(classes, sources) {
+  let arr = [];
+  console.log(sources);
   classes.forEach((className) => {
     let el = document.getElementsByClassName(className);
     for (let i = 0; i < el.length; ++i) {
       var str = el[i].innerHTML;
+
       var tmp = str.split("<")[2].split('a href="')[1].split('">')[0];
-      arr.push(tmp);
+      var taskId = tmp.split("/")[2];
+
+      if (taskId.startsWith("o") && sources.ipst) {
+        arr.push(tmp);
+      } else if (taskId.startsWith("toi") && sources.toi) {
+        arr.push(tmp);
+      } else if (taskId.startsWith("codecube") && sources.codecube) {
+        arr.push(tmp);
+      } else if (taskId.startsWith("tumso") && sources.tumso) {
+        arr.push(tmp);
+      } else if (
+        (taskId.startsWith("0") ||
+          taskId.startsWith("1") ||
+          taskId.startsWith("2")) &&
+        sources.pg
+      ) {
+        arr.push(tmp);
+      }
     }
   });
-
+  // console.log(arr);
   var item = arr[Math.floor(Math.random() * arr.length)];
   if (item === undefined) item = "https://beta.programming.in.th/tasks";
   window.location.href = item;
+  // console.log(item);
 }

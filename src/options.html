@@ -13,51 +13,94 @@
   </head>
   <body>
     <div class="container my-5">
-      <h2>Random Setting</h2>
-      <div class="">
+      <h2 class="">Random Setting</h2>
+      <h6 class="text-secondary">customized scope of randomization</h6>
+      <div class="pl-4">
         <h4>Status</h4>
-        <div class="d-flex flex-column pl-2">
+        <h6 class="text-secondary">status of the tasks</h6>
+        <div class="d-flex flex-column pl-4">
           <div class="">
-            <input class="options" type="checkbox" name="Completed" id="completed" />
+            <input
+              class="options"
+              type="checkbox"
+              name="Completed"
+              id="completed"
+            />
             <label for="completed">Completed</label>
           </div>
-          <div>
-            <input class="options" type="checkbox" name="Uncompleted" id="uncompleted" />
-            <label for="uncompleted">Uncompleted</label>
-          </div>
-          <div>
-            <input class="options" type="checkbox" name="Attempted" id="attempted" />
-            <label for="attempted">Attempted</label>
-          </div>
-        </div>
-      </div>
-      <div class="">
-        <h4>Sources</h4>
-        <div class="d-flex flex-column pl-2">
           <div>
             <input
               class="options"
               type="checkbox"
+              name="Uncompleted"
+              id="uncompleted"
+            />
+            <label for="uncompleted">Uncompleted</label>
+          </div>
+          <div>
+            <input
+              class="options"
+              type="checkbox"
+              name="Attempted"
+              id="attempted"
+            />
+            <label for="attempted">Attempted</label>
+          </div>
+        </div>
+      </div>
+      <div class="pl-4">
+        <h4>Sources</h4>
+        <h6 class="text-secondary">sources of the tasks</h6>
+        <div class="d-flex flex-column pl-4">
+          <div>
+            <input
+              class="sources"
+              type="checkbox"
               name="Programming.in.th"
               id="programming.in.th"
             />
-            <label for="programming.in.th">Programming.in.th</label>
+            <label for="programming.in.th">
+              Programming.in.th
+              <span class="badge badge-info ml-1">00..</span>
+              <span class="badge badge-info ml-1">10..</span>
+              <span class="badge badge-info ml-1">11..</span>
+              <span class="badge badge-info ml-1">20..</span>
+            </label>
           </div>
           <div>
-            <input class="options" type="checkbox" name="CodeCube" id="codecube" />
-            <label for="codecube">Codecube</label>
+            <input
+              class="sources"
+              type="checkbox"
+              name="CodeCube"
+              id="codecube"
+            />
+            <label for="codecube">
+              Codecube
+              <span class="badge badge-info ml-1">codecube...</span>
+            </label>
           </div>
           <div>
-            <input class="options" type="checkbox" name="Ipst Camp" id="ipstcamp" />
-            <label for="ipstcamp">Ipst Camp</label>
+            <input
+              class="sources"
+              type="checkbox"
+              name="Ipst Camp"
+              id="ipstcamp"
+            />
+            <label for="ipstcamp">
+              Ipst Camp<span class="badge badge-info ml-1">o...</span>
+            </label>
           </div>
           <div>
-            <input class="options" type="checkbox" name="Toi" id="toi" />
-            <label for="toi">Toi</label>
+            <input class="sources" type="checkbox" name="Toi" id="toi" />
+            <label for="toi">
+              Toi<span class="badge badge-info ml-1">toi...</span>
+            </label>
           </div>
           <div>
-            <input class="options" type="checkbox" name="Tumso" id="tumso" />
-            <label for="tumso">Tumso</label>
+            <input class="sources" type="checkbox" name="Tumso" id="tumso" />
+            <label for="tumso">
+              Tumso<span class="badge badge-info ml-1">tumso...</span>
+            </label>
           </div>
         </div>
       </div>

@@ -3,7 +3,8 @@
   "description": "An extension for showing, hiding, randomizing tasks on programming.in.th | β",
   "version": "1.1.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["activeTab", "scripting", "storage", "tabs"],
+  "host_permissions": ["https://beta.programming.in.th/tasks"],
   "options_page": "options.html",
   "background": {
     "service_worker": "scripts/background.js"
