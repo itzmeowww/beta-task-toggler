@@ -24,3 +24,8 @@ This extension is not published yet, you can install it by following these steps
 ## Contributions
 
 - `Random` feature from [@MasterIceZ](https://github.com/MasterIceZ)
+
+## To-Do
+
+- Update tasks (show/hide) when page is loaded
+- Options Page
