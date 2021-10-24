@@ -9,7 +9,15 @@ This extension helps you to hide/show/random tasks on https://beta.programming.i
 ![](./previews/screenshot_2.jpg)
 ![](./previews/screenshot_3.jpg)
 
-## Installation
+## Options
+
+![](./previews/screenshot_4.jpg)
+
+## Install
+
+[chrome web store](https://chrome.google.com/webstore/detail/beta-task-toggler/mgicmhhkcdbopogdbphnecplndijgfbn/related?hl=en)
+
+## Installation For Development
 
 This extension is not published yet, you can install it by following these steps from https://developer.chrome.com/docs/extensions/mv3/getstarted/ below
 
@@ -24,3 +32,5 @@ This extension is not published yet, you can install it by following these steps
 ## Contributions
 
 - `Random` feature from [@MasterIceZ](https://github.com/MasterIceZ)
+
+## To-Do
