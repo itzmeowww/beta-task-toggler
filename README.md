@@ -11,7 +11,7 @@ This extension helps you to hide/show/random tasks on https://beta.programming.i
 
 ## Options
 
-![](./previews/screenshot_4.jpg)
+![](./previews/screenshot_4.png)
 
 ## Install
 
