@@ -129,12 +129,13 @@ function randomTask(classes, sources) {
         arr.push(tmp);
       } else if (taskId.startsWith("tumso") && sources.tumso) {
         arr.push(tmp);
+      } else if (taskId.startsWith("00") && sources.pgEasy) {
+        arr.push(tmp);
       } else if (
-        (taskId.startsWith("0") ||
-          taskId.startsWith("1") ||
-          taskId.startsWith("2")) &&
-        sources.pg
-      ) {
+        (taskId.startsWith("10") || taskId.startsWith("11")) &&
+        sources.pgMedium) {
+        arr.push(tmp);
+      } else if (taskId.startsWith("20") && sources.pgHard) {
         arr.push(tmp);
       }
     }
