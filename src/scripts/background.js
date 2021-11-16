@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
         randomUncompleted: true,
       },
       randomSources: {
-				all: true,
+        all: true,
         pg: true,
         codecube: true,
         ipst: true,
