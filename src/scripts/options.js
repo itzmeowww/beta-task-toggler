@@ -60,14 +60,13 @@ function onRandomSourcesChanged() {
     randomTumsoOption.checked &&
     randomPgOption.checked &&
     randomIpstOption.checked &&
-    randomCodecubeOption.checked;
+    randomCodecubeOption.checked && randomToiOption.checked;
 	var allOpt = document.getElementsByClassName("selectallsource")[0];
 	allOpt.checked = randomSources["all"];
   chrome.storage.sync.set({ randomSources });
 }
 
 function onAllSourcesChanged() {
-  console.log(randomAllOption.checked);
   randomSources["all"] = randomAllOption.checked;
   randomSources["pg"] = randomAllOption.checked;
   randomSources["codecube"] = randomAllOption.checked;
