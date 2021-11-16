@@ -7,9 +7,11 @@ const randomCodecubeOption = document.getElementById("codecube");
 const randomIpstOption = document.getElementById("ipstcamp");
 const randomToiOption = document.getElementById("toi");
 const randomTumsoOption = document.getElementById("tumso");
+const randomAllOption = document.getElementById("selectAll");
 
 const allOptions = document.getElementsByClassName("options");
 
+const selectAllSource = document.getElementsByClassName("selectallsource");
 const allSources = document.getElementsByClassName("sources");
 
 for (let idx = 0; idx < allOptions.length; idx++) {
@@ -19,6 +21,8 @@ for (let idx = 0; idx < allOptions.length; idx++) {
 for (let idx = 0; idx < allSources.length; idx++) {
   allSources[idx].addEventListener("change", onRandomSourcesChanged);
 }
+
+selectAllSource[0].addEventListener("change", onAllSourcesChanged);
 
 let randomOptions = {};
 chrome.storage.sync.get("randomOptions", function (res) {
@@ -38,6 +42,7 @@ function onRandomOptionsChanged() {
 let randomSources = {};
 chrome.storage.sync.get("randomSources", function (res) {
   randomSources = res["randomSources"];
+  randomAllOption.checked = randomSources.all;
   randomPgOption.checked = randomSources.pg;
   randomCodecubeOption.checked = randomSources.codecube;
   randomIpstOption.checked = randomSources.ipst;
@@ -51,5 +56,29 @@ function onRandomSourcesChanged() {
   randomSources["ipst"] = randomIpstOption.checked;
   randomSources["toi"] = randomToiOption.checked;
   randomSources["tumso"] = randomTumsoOption.checked;
+  randomSources["all"] =
+    randomTumsoOption.checked &&
+    randomPgOption.checked &&
+    randomIpstOption.checked &&
+    randomCodecubeOption.checked;
+	var allOpt = document.getElementsByClassName("selectallsource")[0];
+	allOpt.checked = randomSources["all"];
+  chrome.storage.sync.set({ randomSources });
+}
+
+function onAllSourcesChanged() {
+  console.log(randomAllOption.checked);
+  randomSources["all"] = randomAllOption.checked;
+  randomSources["pg"] = randomAllOption.checked;
+  randomSources["codecube"] = randomAllOption.checked;
+  randomSources["ipst"] = randomAllOption.checked;
+  randomSources["toi"] = randomAllOption.checked;
+  randomSources["tumso"] = randomAllOption.checked;
+
+  var chbx = document.getElementsByClassName("sources");
+  for (var i = 0; i < chbx.length; ++i) {
+    chbx[i].checked = randomAllOption.checked;
+  }
+
   chrome.storage.sync.set({ randomSources });
 }
