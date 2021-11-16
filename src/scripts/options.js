@@ -7,10 +7,17 @@ const randomCodecubeOption = document.getElementById("codecube");
 const randomIpstOption = document.getElementById("ipstcamp");
 const randomToiOption = document.getElementById("toi");
 const randomTumsoOption = document.getElementById("tumso");
+const randomAllOption = document.getElementById("selectAll");
 
 const allOptions = document.getElementsByClassName("options");
 
+const selectAllSource = document.getElementsByClassName("selectallsource");
 const allSources = document.getElementsByClassName("sources");
+const difficulty = document.getElementsByClassName("subSource");
+
+const easy = document.getElementById("pgEasy");
+const medium = document.getElementById("pgMedium");
+const hard = document.getElementById("pgHard");
 
 for (let idx = 0; idx < allOptions.length; idx++) {
   allOptions[idx].addEventListener("change", onRandomOptionsChanged);
@@ -19,6 +26,13 @@ for (let idx = 0; idx < allOptions.length; idx++) {
 for (let idx = 0; idx < allSources.length; idx++) {
   allSources[idx].addEventListener("change", onRandomSourcesChanged);
 }
+
+for (let idx = 0; idx < difficulty.length; idx++) {
+  difficulty[idx].addEventListener("change", onDifficultyChanged);
+}
+
+randomPgOption.addEventListener("change", onPgChanged);
+selectAllSource[0].addEventListener("change", onAllSourcesChanged);
 
 let randomOptions = {};
 chrome.storage.sync.get("randomOptions", function (res) {
@@ -38,7 +52,11 @@ function onRandomOptionsChanged() {
 let randomSources = {};
 chrome.storage.sync.get("randomSources", function (res) {
   randomSources = res["randomSources"];
+  randomAllOption.checked = randomSources.all;
   randomPgOption.checked = randomSources.pg;
+  easy.checked = randomSources.pgEasy;
+  medium.checked = randomSources.pgMedium;
+  hard.checked = randomSources.pgHard;
   randomCodecubeOption.checked = randomSources.codecube;
   randomIpstOption.checked = randomSources.ipst;
   randomToiOption.checked = randomSources.toi;
@@ -46,10 +64,69 @@ chrome.storage.sync.get("randomSources", function (res) {
 });
 
 function onRandomSourcesChanged() {
-  randomSources["pg"] = randomPgOption.checked;
-  randomSources["codecube"] = randomCodecubeOption.checked;
+  randomSources["pg"] = easy.checked && medium.checked && hard.checked;
+  randomSources["pgEasy"] = easy.checked;
+  randomSources["pgMedium"] = medium.checked;
+  randomSources["pgHard"] = hard.checked;
   randomSources["ipst"] = randomIpstOption.checked;
   randomSources["toi"] = randomToiOption.checked;
   randomSources["tumso"] = randomTumsoOption.checked;
+  randomSources["all"] =
+    randomTumsoOption.checked &&
+    randomPgOption.checked &&
+    randomIpstOption.checked &&
+    randomCodecubeOption.checked &&
+    randomToiOption.checked;
+  var allOpt = document.getElementsByClassName("selectallsource")[0];
+  allOpt.checked = randomSources["all"];
+  chrome.storage.sync.set({ randomSources });
+}
+
+function onAllSourcesChanged() {
+  randomSources["all"] = randomAllOption.checked;
+  randomSources["pg"] = randomAllOption.checked;
+  randomSources["codecube"] = randomAllOption.checked;
+  randomSources["ipst"] = randomAllOption.checked;
+  randomSources["toi"] = randomAllOption.checked;
+  randomSources["tumso"] = randomAllOption.checked;
+
+  var chbx = document.getElementsByClassName("sources");
+  for (var i = 0; i < chbx.length; ++i) {
+    chbx[i].checked = randomAllOption.checked;
+  }
+  onPgChanged();
+  chrome.storage.sync.set({ randomSources });
+}
+
+function onPgChanged() {
+  randomSources["pgEasy"] = randomPgOption.checked;
+  randomSources["pgMedium"] = randomPgOption.checked;
+  randomSources["pgHard"] = randomPgOption.checked;
+
+  var chbx = document.getElementsByClassName("subSource");
+  for (var i = 0; i < chbx.length; ++i) {
+    chbx[i].checked = randomPgOption.checked;
+  }
+
+  chrome.storage.sync.set({ randomSources });
+}
+
+function onDifficultyChanged() {
+  randomSources["pgEasy"] = easy.checked;
+  randomSources["pgMedium"] = medium.checked;
+  randomSources["pgHard"] = hard.checked;
+
+  randomSources["pg"] = easy.checked && medium.checked && hard.checked;
+
+  var ez = document.getElementById("pgEasy");
+  ez.checked = easy.checked;
+  var med = document.getElementById("pgMedium");
+  med.checked = medium.checked;
+  var ha = document.getElementById("pgHard");
+  ha.checked = hard.checked;
+
+  var pg = document.getElementById("programming.in.th");
+  pg.checked = randomSources["pg"];
+
   chrome.storage.sync.set({ randomSources });
 }
