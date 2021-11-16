@@ -13,11 +13,19 @@ const allOptions = document.getElementsByClassName("options");
 
 const selectAllSource = document.getElementsByClassName("selectallsource");
 const allSources = document.getElementsByClassName("sources");
-const difficulty = document.getElementsByClassName("subSource");
+const difficulty = document.getElementsByClassName("pgm");
 
 const easy = document.getElementById("pgEasy");
 const medium = document.getElementById("pgMedium");
 const hard = document.getElementById("pgHard");
+
+const tumsos = document.getElementsByClassName("tumsotype");
+const tumso15 = document.getElementById("tumso15");
+const tumso16 = document.getElementById("tumso16");
+const tumso17 = document.getElementById("tumso17");
+const tumso18 = document.getElementById("tumso18");
+
+tumso.addEventListener("change", onAllTumsosChanged);
 
 for (let idx = 0; idx < allOptions.length; idx++) {
   allOptions[idx].addEventListener("change", onRandomOptionsChanged);
@@ -29,6 +37,10 @@ for (let idx = 0; idx < allSources.length; idx++) {
 
 for (let idx = 0; idx < difficulty.length; idx++) {
   difficulty[idx].addEventListener("change", onDifficultyChanged);
+}
+
+for (let idx = 0; idx < tumsos.length; idx++) {
+  tumsos[idx].addEventListener("change", onTumsosChanged);
 }
 
 randomPgOption.addEventListener("change", onPgChanged);
@@ -95,6 +107,7 @@ function onAllSourcesChanged() {
     chbx[i].checked = randomAllOption.checked;
   }
   onPgChanged();
+  onAllTumsosChanged();
   chrome.storage.sync.set({ randomSources });
 }
 
@@ -103,7 +116,7 @@ function onPgChanged() {
   randomSources["pgMedium"] = randomPgOption.checked;
   randomSources["pgHard"] = randomPgOption.checked;
 
-  var chbx = document.getElementsByClassName("subSource");
+  var chbx = document.getElementsByClassName("pgm");
   for (var i = 0; i < chbx.length; ++i) {
     chbx[i].checked = randomPgOption.checked;
   }
@@ -129,4 +142,39 @@ function onDifficultyChanged() {
   pg.checked = randomSources["pg"];
 
   chrome.storage.sync.set({ randomSources });
+}
+
+function onTumsosChanged() {
+  randomSources["tumso15"] = tumso15.checked;
+  randomSources["tumso16"] = tumso16.checked;
+  randomSources["tumso17"] = tumso17.checked;
+  randomSources["tumso18"] = tumso18.checked;
+
+  randomSources["tumso"] =
+    tumso15.checked && tumso16.checked && tumso17.checked && tumso18.checked;
+
+  var t15 = document.getElementById("tumso15");
+  var t16 = document.getElementById("tumso16");
+  var t17 = document.getElementById("tumso17");
+  var t18 = document.getElementById("tumso18");
+  t15.checked = tumso15.checked;
+  t16.checked = tumso16.checked;
+  t17.checked = tumso17.checked;
+  t18.checked = tumso18.checked;
+
+  var tum = document.getElementById("tumso");
+  tum.checked = randomSources["tumso"];
+
+  chrome.storage.sync.set({ randomSources });
+}
+
+function onAllTumsosChanged() {
+  var keys = ["tumso15", "tumso16", "tumso17", "tumso18"];
+  for (var i = 0; i < keys.length; ++i) {
+    randomSources[keys[i]] = tumso.checked;
+  }
+  var chbx = document.getElementsByClassName("tumsotype");
+  for (var i = 0; i < chbx.length; ++i) {
+    chbx[i].checked = tumso.checked;
+  }
 }

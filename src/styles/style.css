@@ -77,3 +77,7 @@ button#toggleAttempt {
 button#randomIncomplete {
     background-color: rgb(253, 233, 249);
 }
+
+.subSource {
+	margin-left: 10px;
+}

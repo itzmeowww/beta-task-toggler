@@ -21,6 +21,10 @@ chrome.runtime.onInstalled.addListener(() => {
         ipst: true,
         toi: true,
         tumso: true,
+				tumso15: true,
+				tumso16: true,
+				tumso17: true,
+				tumso18: true,
       },
     },
     () => {}
