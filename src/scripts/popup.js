@@ -132,7 +132,7 @@ function randomTask(classes, sources) {
       } else if (taskId.startsWith("tumso16") && sources.tumso16) {
         arr.push(tmp);
       } else if (taskId.startsWith("tumso17") && sources.tumso17) {
-        arr.psuh(tmp);
+        arr.push(tmp);
       } else if (taskId.startsWith("tumso18") && sources.tumso18) {
         arr.push(tmp);
       } else if (taskId.startsWith("00") && sources.pgEasy) {
