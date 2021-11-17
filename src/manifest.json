@@ -1,7 +1,7 @@
 {
   "name": "Beta Task Toggler",
   "description": "An extension for showing, hiding, randomizing tasks on programming.in.th | β",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "manifest_version": 3,
   "permissions": ["activeTab", "scripting", "storage", "tabs"],
   "host_permissions": ["https://beta.programming.in.th/tasks"],
