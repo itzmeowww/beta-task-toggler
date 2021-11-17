@@ -127,13 +127,20 @@ function randomTask(classes, sources) {
         arr.push(tmp);
       } else if (taskId.startsWith("codecube") && sources.codecube) {
         arr.push(tmp);
-      } else if (taskId.startsWith("tumso") && sources.tumso) {
+      } else if (taskId.startsWith("tumso15") && sources.tumso15) {
+        arr.push(tmp);
+      } else if (taskId.startsWith("tumso16") && sources.tumso16) {
+        arr.push(tmp);
+      } else if (taskId.startsWith("tumso17") && sources.tumso17) {
+        arr.push(tmp);
+      } else if (taskId.startsWith("tumso18") && sources.tumso18) {
         arr.push(tmp);
       } else if (taskId.startsWith("00") && sources.pgEasy) {
         arr.push(tmp);
       } else if (
         (taskId.startsWith("10") || taskId.startsWith("11")) &&
-        sources.pgMedium) {
+        sources.pgMedium
+      ) {
         arr.push(tmp);
       } else if (taskId.startsWith("20") && sources.pgHard) {
         arr.push(tmp);
