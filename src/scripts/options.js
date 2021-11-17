@@ -25,7 +25,7 @@ const tumso16 = document.getElementById("tumso16");
 const tumso17 = document.getElementById("tumso17");
 const tumso18 = document.getElementById("tumso18");
 
-tumso.addEventListener("change", onAllTumsosChanged);
+randomTumsoOption.addEventListener("change", onAllTumsosChanged);
 
 for (let idx = 0; idx < allOptions.length; idx++) {
   allOptions[idx].addEventListener("change", onRandomOptionsChanged);
@@ -83,6 +83,7 @@ function onRandomSourcesChanged() {
   randomSources["ipst"] = randomIpstOption.checked;
   randomSources["toi"] = randomToiOption.checked;
   randomSources["tumso"] = randomTumsoOption.checked;
+	randomSources["codecube"] = randomCodecubeOption.checked;
   randomSources["all"] =
     randomTumsoOption.checked &&
     randomPgOption.checked &&
@@ -91,6 +92,8 @@ function onRandomSourcesChanged() {
     randomToiOption.checked;
   var allOpt = document.getElementsByClassName("selectallsource")[0];
   allOpt.checked = randomSources["all"];
+  onPgChanged();
+  onAllTumsosChanged();
   chrome.storage.sync.set({ randomSources });
 }
 
@@ -106,8 +109,11 @@ function onAllSourcesChanged() {
   for (var i = 0; i < chbx.length; ++i) {
     chbx[i].checked = randomAllOption.checked;
   }
-  onPgChanged();
-  onAllTumsosChanged();
+
+  var sbc = document.getElementsByClassName("subSource");
+  for (var i = 0; i < sbc.length; ++i) {
+    sbc[i].checked = randomAllOption.checked;
+  }
   chrome.storage.sync.set({ randomSources });
 }
 
@@ -141,6 +147,15 @@ function onDifficultyChanged() {
   var pg = document.getElementById("programming.in.th");
   pg.checked = randomSources["pg"];
 
+  randomSources["all"] =
+    randomSources["toi"] &&
+    randomSources["pg"] &&
+    randomSources["tumso"] &&
+    randomSources["codecube"] &&
+    randomSources["ipst"];
+  var all = document.getElementById("selectAll");
+  all.checked = randomSources["all"];
+
   chrome.storage.sync.set({ randomSources });
 }
 
@@ -169,12 +184,15 @@ function onTumsosChanged() {
 }
 
 function onAllTumsosChanged() {
-  var keys = ["tumso15", "tumso16", "tumso17", "tumso18"];
-  for (var i = 0; i < keys.length; ++i) {
-    randomSources[keys[i]] = tumso.checked;
-  }
+  randomSources["tumso15"] = randomTumsoOption.checked;
+  randomSources["tumso16"] = randomTumsoOption.checked;
+  randomSources["tumso17"] = randomTumsoOption.checked;
+  randomSources["tumso18"] = randomTumsoOption.checked;
+
   var chbx = document.getElementsByClassName("tumsotype");
   for (var i = 0; i < chbx.length; ++i) {
     chbx[i].checked = tumso.checked;
   }
+
+  chrome.storage.sync.set({ randomSources });
 }
