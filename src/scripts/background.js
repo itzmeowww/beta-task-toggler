@@ -107,7 +107,11 @@ const updateTheme = (darkMode) => {
 };
 
 const toggleTheme = async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  let [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+    url: "https://beta.programming.in.th/*",
+  });
   if (tab == undefined) return;
 
   chrome.storage.sync.get("darkMode", function (res) {

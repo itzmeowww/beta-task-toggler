@@ -59,7 +59,11 @@ const updateTheme = (darkMode) => {
 };
 
 const toggleTheme = async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  let [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+    url: "https://beta.programming.in.th/*",
+  });
   if (tab == undefined) return;
 
   chrome.storage.sync.get("darkMode", function (res) {
@@ -96,7 +100,7 @@ const updateByTypes = async (types, toggle, updateText) => {
   let [tab] = await chrome.tabs.query({
     active: true,
     currentWindow: true,
-    url: "https://beta.programming.in.th/tasks",
+    url: "https://beta.programming.in.th/*",
   });
   if (tab == undefined) return;
 
@@ -165,7 +169,11 @@ randomIncompleteButton.innerHTML = `Random`;
 randomIncompleteButton.title = `Random`;
 
 randomIncompleteButton.addEventListener("click", async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  let [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+    url: "https://beta.programming.in.th/*",
+  });
 
   let randomOptions = {};
   let randomSources = {};
