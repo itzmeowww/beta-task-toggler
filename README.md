@@ -5,9 +5,9 @@
 This extension helps you to hide/show/random tasks on https://beta.programming.in.th/.
 
 ![](./previews/preview.png)
-![](./previews/screenshot_1.jpg)
-![](./previews/screenshot_2.jpg)
-![](./previews/screenshot_3.jpg)
+![](./previews/screenshot_1.png)
+![](./previews/screenshot_2.png)
+![](./previews/screenshot_3.png)
 
 ## Options
 

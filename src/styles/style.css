@@ -17,8 +17,9 @@ button {
   font-weight: 500;
   line-height: 20px;
   list-style: none;
-  padding: 6px 16px;
+  padding: 6px;
   position: relative;
+  text-align: center;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
   user-select: none;
   -webkit-user-select: none;
@@ -65,15 +66,15 @@ button {
 }
 
 button#toggleComplete {
-  background-color: rgb(240, 255, 244);
+  background-color: #c6f6d5;
 }
 
 button#toggleIncomplete {
-  background-color: rgb(226, 232, 240);
+  background-color: #f7fafc;
 }
 
 button#toggleAttempt {
-  background-color: rgb(255, 245, 245);
+  background-color: #fed7d7;
 }
 
 button#randomIncomplete {
