@@ -27,6 +27,7 @@ button {
   vertical-align: middle;
   white-space: nowrap;
   word-wrap: break-word;
+  max-width: 100%;
 }
 
 button:hover {
@@ -79,6 +80,11 @@ button#toggleAttempt {
 
 button#randomIncomplete {
   background-color: rgb(253, 233, 249);
+}
+
+button#toggleTheme {
+  background-color: rgb(26, 32, 44);
+  color: white;
 }
 
 .subSource {

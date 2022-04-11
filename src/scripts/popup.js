@@ -13,6 +13,7 @@ const buttonIds = {
   uncompleted: "toggleIncomplete",
   attempted: "toggleAttempt",
   theme: "toggleTheme",
+  setting: "setting",
 };
 
 const updateTheme = (darkMode) => {
@@ -37,6 +38,11 @@ const updateTheme = (darkMode) => {
     "css-1lqajip",
     "css-1ee7pjs",
     "css-19lx80r",
+    "css-1ybytse",
+    "css-f5hoy5",
+    "css-1ma5mi3",
+    "css-1l725sd",
+    "css-o4mft6",
   ].forEach((x) => {
     elems = document.getElementsByClassName(x);
     for (let i = 0; i < elems.length; i++) {
@@ -163,6 +169,14 @@ let toggleThemeButton = document.getElementById(buttonIds.theme);
 toggleThemeButton.innerHTML = `Toggle Dark Mode`;
 toggleThemeButton.title = `Toggle Dark Mode`;
 toggleThemeButton.addEventListener("click", async () => await toggleTheme());
+
+let settingButton = document.getElementById(buttonIds.setting);
+settingButton.innerHTML = `Setting`;
+settingButton.title = `Setting`;
+settingButton.addEventListener(
+  "click",
+  async () => await chrome.runtime.openOptionsPage()
+);
 
 let randomIncompleteButton = document.getElementById("randomIncomplete");
 randomIncompleteButton.innerHTML = `Random`;
