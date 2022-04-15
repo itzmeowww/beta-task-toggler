@@ -1,8 +1,13 @@
-# Extension for https://beta.programming.in.th/
+# BETA TASK TOGGLER
+
+### Extension for https://beta.programming.in.th/
 
 ![](./previews/Marquee_promo_tile.jpg)
 
-This extension helps you to hide/show/random tasks on https://beta.programming.in.th/.
+With this extension, you can:
+
+- hide, show, and random tasks.
+- change theme to dark mode.
 
 ![](./previews/preview.png)
 ![](./previews/screenshot_1.png)
@@ -13,13 +18,13 @@ This extension helps you to hide/show/random tasks on https://beta.programming.i
 
 ![](./previews/screenshot_4.png)
 
-## Install
+## Installation
 
 [chrome web store](https://chrome.google.com/webstore/detail/beta-task-toggler/mgicmhhkcdbopogdbphnecplndijgfbn/related?hl=en)
 
-## Installation For Development
+## Development
 
-This extension is not published yet, you can install it by following these steps from https://developer.chrome.com/docs/extensions/mv3/getstarted/ below
+You can install it by following these steps from https://developer.chrome.com/docs/extensions/mv3/getstarted/ below:
 
 0. Download the `src.zip` file, extracts to a folder
 
