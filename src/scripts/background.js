@@ -28,6 +28,7 @@ chrome.runtime.onInstalled.addListener(() => {
         tumso18: true,
       },
       bookmarked: [],
+      showOnlyBookmarked: false,
     },
     () => {}
   );
@@ -144,13 +145,23 @@ function delay(time) {
 }
 
 function addBookmarkIcon() {
-  /** @type {HTMLTableElement} */
+  /** @type {HTMLTableSectionElement} */
   const tableHead = document.querySelector("table.css-1rwqhj9 > thead");
 
   if (!tableHead?.children[0]?.children[0]?.textContent?.includes("PROBLEM"))
     return;
 
-  /** @type {HTMLTableElement} */
+  /** @type {HTMLTableRowElement} */
+  const theadrow = tableHead.children[0];
+
+  if (theadrow.children.length < 3) {
+    const thirdHeadColumn = document.createElement("th");
+    thirdHeadColumn.textContent = "BOOKMARK";
+    thirdHeadColumn.className = theadrow.children[0].className;
+    theadrow.appendChild(thirdHeadColumn);
+  }
+
+  /** @type {HTMLTableSectionElement} */
   const tableBody = document.querySelector("table.css-1rwqhj9 > tbody");
 
   // * From Bootstrap Icons

@@ -7,6 +7,7 @@ const buttonTexts = {
   completed: "Completed Tasks",
   uncompleted: "Uncompleted Tasks",
   attempted: "Attempted Tasks",
+  bookmarked: "Not Bookmarked Tasks",
 };
 const buttonIds = {
   completed: "toggleComplete",
@@ -134,7 +135,57 @@ const updateByTypes = async (types, toggle, updateText) => {
   });
 };
 
-const toggleBookmark = async () => {};
+const toggleBookmark = async (toggle) => {
+  let [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+    url: "https://beta.programming.in.th/*",
+  });
+  if (tab == undefined) return;
+
+  chrome.storage.sync.get(["bookmarked", "showOnlyBookmarked"], (res) => {
+    /** @type {string[]} */
+    const bookmarked = res["bookmarked"];
+
+    /** @type {boolean} */
+    let showOnlyBookmarked = res["showOnlyBookmarked"];
+    showOnlyBookmarked = toggle ? !showOnlyBookmarked : showOnlyBookmarked;
+
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (bookmarked, showOnlyBookmarked) => {
+        const table = document.querySelector("table.css-1rwqhj9");
+
+        if (
+          !table?.children[0] /* thead */?.children[0] /* tr */?.children[0] /* th */?.textContent
+            ?.includes("PROBLEM")
+        )
+          return;
+
+        /** @type {HTMLTableSectionElement} */
+        const tbody = table.children[1];
+
+        for (const tr of tbody.children) {
+          const taskID = window.getTaskIDFromTR(tr);
+          if (!bookmarked.includes(taskID) && showOnlyBookmarked) {
+            tr.style.display = "none";
+          } else {
+            tr.style.display = "table-row";
+          }
+        }
+      },
+      args: [bookmarked, showOnlyBookmarked],
+    });
+
+    chrome.storage.sync.set({ showOnlyBookmarked });
+
+    updateButtonText(
+      buttonIds.bookmark,
+      showOnlyBookmarked,
+      buttonTexts.bookmarked
+    );
+  });
+};
 
 function updateButtonText(id, hiding, text) {
   let el = document.getElementById(id);
@@ -143,6 +194,7 @@ function updateButtonText(id, hiding, text) {
 }
 
 updateByTypes(["completed", "uncompleted", "attempted"], false, true);
+toggleBookmark(false);
 
 let toggleCompleteButton = document.getElementById(buttonIds.completed);
 toggleCompleteButton.innerHTML = `Toggle Completed Tasks`;
@@ -173,7 +225,7 @@ toggleBookmarkButton.innerHTML = `Toggle Bookmarked`;
 toggleBookmarkButton.title = `Toggle Bookmarked`;
 toggleBookmarkButton.addEventListener(
   "click",
-  async () => await toggleBookmark()
+  async () => await toggleBookmark(true)
 );
 
 let toggleThemeButton = document.getElementById(buttonIds.theme);
