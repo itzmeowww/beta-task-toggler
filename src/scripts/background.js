@@ -27,6 +27,7 @@ chrome.runtime.onInstalled.addListener(() => {
         tumso17: true,
         tumso18: true,
       },
+      bookmarked: [],
     },
     () => {}
   );
@@ -142,6 +143,79 @@ function delay(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
+function addBookmarkIcon() {
+  /** @type {HTMLTableElement} */
+  const tableHead = document.querySelector("table.css-1rwqhj9 > thead");
+
+  if (!tableHead?.children[0]?.children[0]?.textContent?.includes("PROBLEM"))
+    return;
+
+  /** @type {HTMLTableElement} */
+  const tableBody = document.querySelector("table.css-1rwqhj9 > tbody");
+
+  // * From Bootstrap Icons
+  window.bookmarkOffSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>`;
+
+  window.bookmarkOnSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+</svg>`;
+
+  /** @type {(tr: HTMLTableRowElement) => string} */
+  window.getTaskIDFromTR = (tr) =>
+    tr.children[0] /* td */.children[0] /* a */.children[0] /* div */
+      .textContent;
+
+  // * On Bookmark Button Toggle
+  window.bookmarkClickHandler = (e) => {
+    /** @type {HTMLButtonElement} */
+    const t = e.currentTarget;
+    const tr = t.parentNode /* td */.parentNode;
+
+    const taskId = window.getTaskIDFromTR(tr);
+
+    chrome.storage.sync.get("bookmarked", (res) => {
+      // By GitHub Copilot
+      let bookmarked = res["bookmarked"];
+      const isBookmarked = bookmarked.includes(taskId);
+      if (isBookmarked) {
+        bookmarked = bookmarked.filter((x) => x != taskId);
+      } else {
+        bookmarked.push(taskId);
+      }
+      t.innerHTML = !isBookmarked
+        ? window.bookmarkOnSVG
+        : window.bookmarkOffSVG;
+
+      t.children[0].style.color = !isBookmarked ? "#f3da35" : "";
+
+      chrome.storage.sync.set({ bookmarked }, () => {});
+    });
+  };
+
+  // * Initialization
+  chrome.storage.sync.get("bookmarked", (res) => {
+    let bookmarked = res["bookmarked"];
+
+    for (const tr of tableBody.children) {
+      if (tr.children.length >= 3) return;
+
+      const bookmarktd = document.createElement("td");
+      const isBookmarked = bookmarked.includes(window.getTaskIDFromTR(tr));
+      bookmarktd.innerHTML = `<button>
+      ${isBookmarked ? window.bookmarkOnSVG : window.bookmarkOffSVG}</button>`;
+
+      /** @type {HTMLButtonElement} */
+      const btn = bookmarktd.children[0];
+      btn.onclick = window.bookmarkClickHandler;
+
+      btn.children[0].style.color = isBookmarked ? "#f3da35" : "";
+
+      tr.appendChild(bookmarktd);
+    }
+  });
+}
+
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   let [tab] = await chrome.tabs.query({
     active: true,
@@ -154,5 +228,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
 
     await updateByTypes();
     await toggleTheme();
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: addBookmarkIcon,
+    });
   }
 });

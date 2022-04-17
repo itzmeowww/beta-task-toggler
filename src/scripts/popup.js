@@ -12,6 +12,7 @@ const buttonIds = {
   completed: "toggleComplete",
   uncompleted: "toggleIncomplete",
   attempted: "toggleAttempt",
+  bookmark: "toggleBookmark",
   theme: "toggleTheme",
   setting: "setting",
 };
@@ -133,6 +134,8 @@ const updateByTypes = async (types, toggle, updateText) => {
   });
 };
 
+const toggleBookmark = async () => {};
+
 function updateButtonText(id, hiding, text) {
   let el = document.getElementById(id);
   el.innerHTML = (hiding ? "Show" : "Hide") + " " + text;
@@ -163,6 +166,14 @@ toggleAttemptButton.title = `Toggle Attempted Tasks`;
 toggleAttemptButton.addEventListener(
   "click",
   async () => await updateByTypes(["attempted"], true, true)
+);
+
+let toggleBookmarkButton = document.getElementById(buttonIds.bookmark);
+toggleBookmarkButton.innerHTML = `Toggle Bookmarked`;
+toggleBookmarkButton.title = `Toggle Bookmarked`;
+toggleBookmarkButton.addEventListener(
+  "click",
+  async () => await toggleBookmark()
 );
 
 let toggleThemeButton = document.getElementById(buttonIds.theme);
