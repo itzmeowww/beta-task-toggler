@@ -66,7 +66,7 @@ const updateTheme = (darkMode) => {
   });
 };
 
-const toggleTheme = async () => {
+const toggleTheme = async (toggle) => {
   let [tab] = await chrome.tabs.query({
     active: true,
     currentWindow: true,
@@ -77,7 +77,7 @@ const toggleTheme = async () => {
   chrome.storage.sync.get("darkMode", function (res) {
     let darkMode = res["darkMode"];
 
-    darkMode = !darkMode;
+    darkMode = toggle ? !darkMode : darkMode;
 
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
@@ -195,6 +195,7 @@ function updateButtonText(id, hiding, text) {
 
 updateByTypes(["completed", "uncompleted", "attempted"], false, true);
 toggleBookmark(false);
+toggleTheme(false);
 
 let toggleCompleteButton = document.getElementById(buttonIds.completed);
 toggleCompleteButton.innerHTML = `Toggle Completed Tasks`;
@@ -231,15 +232,15 @@ toggleBookmarkButton.addEventListener(
 let toggleThemeButton = document.getElementById(buttonIds.theme);
 toggleThemeButton.innerHTML = `Toggle Dark Mode`;
 toggleThemeButton.title = `Toggle Dark Mode`;
-toggleThemeButton.addEventListener("click", async () => await toggleTheme());
+toggleThemeButton.addEventListener(
+  "click",
+  async () => await toggleTheme(true)
+);
 
 let settingButton = document.getElementById(buttonIds.setting);
 settingButton.innerHTML = `Setting`;
 settingButton.title = `Setting`;
-settingButton.addEventListener(
-  "click",
-  async () => await chrome.runtime.openOptionsPage()
-);
+settingButton.addEventListener("click", () => chrome.runtime.openOptionsPage());
 
 let randomIncompleteButton = document.getElementById("randomIncomplete");
 randomIncompleteButton.innerHTML = `Random`;

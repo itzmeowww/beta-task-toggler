@@ -127,19 +127,6 @@ const toggleTheme = async () => {
   });
 };
 
-chrome.tabs.onActivated.addListener(async () => {
-  let [tab] = await chrome.tabs.query({
-    active: true,
-    currentWindow: true,
-    url: "https://beta.programming.in.th/*",
-  });
-  if (tab != undefined) {
-    await toggleTheme();
-    await delay(2500);
-    await updateByTypes();
-    await toggleTheme();
-  }
-});
 function delay(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
@@ -154,10 +141,12 @@ function addBookmarkIcon() {
   /** @type {HTMLTableRowElement} */
   const theadrow = tableHead.children[0];
 
+  // * Add Third Column in thead if not exist
   if (theadrow.children.length < 3) {
     const thirdHeadColumn = document.createElement("th");
     thirdHeadColumn.textContent = "BOOKMARK";
     thirdHeadColumn.className = theadrow.children[0].className;
+    thirdHeadColumn.style.textAlign = "center";
     theadrow.appendChild(thirdHeadColumn);
   }
 
@@ -165,12 +154,11 @@ function addBookmarkIcon() {
   const tableBody = document.querySelector("table.css-1rwqhj9 > tbody");
 
   // * From Bootstrap Icons
-  window.bookmarkOffSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>`;
+  window.bookmarkOffSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/></svg>`;
 
-  window.bookmarkOnSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
-</svg>`;
+  window.bookmarkOnSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/></svg>`;
 
   /** @type {(tr: HTMLTableRowElement) => string} */
   window.getTaskIDFromTR = (tr) =>
@@ -187,6 +175,7 @@ function addBookmarkIcon() {
 
     chrome.storage.sync.get("bookmarked", (res) => {
       // By GitHub Copilot
+      /** @type {string[]} */
       let bookmarked = res["bookmarked"];
       const isBookmarked = bookmarked.includes(taskId);
       if (isBookmarked) {
@@ -205,27 +194,60 @@ function addBookmarkIcon() {
   };
 
   // * Initialization
-  chrome.storage.sync.get("bookmarked", (res) => {
-    let bookmarked = res["bookmarked"];
+  chrome.storage.sync.get(["bookmarked", "showOnlyBookmarked"], (res) => {
+    /** @type {string[]} */
+    const bookmarked = res["bookmarked"];
+    /** @type {boolean} */
+    const showOnlyBookmarked = res["showOnlyBookmarked"];
 
     for (const tr of tableBody.children) {
-      if (tr.children.length >= 3) return;
+      if (tr.children.length < 3) {
+        const bookmarktd = document.createElement("td");
+        bookmarktd.style.display = "flex";
+        bookmarktd.style.flexDirection = "row";
+        bookmarktd.style.justifyContent = "center";
+        const isBookmarked = bookmarked.includes(window.getTaskIDFromTR(tr));
+        bookmarktd.innerHTML = `<button>
+        ${
+          isBookmarked ? window.bookmarkOnSVG : window.bookmarkOffSVG
+        }</button>`;
 
-      const bookmarktd = document.createElement("td");
-      const isBookmarked = bookmarked.includes(window.getTaskIDFromTR(tr));
-      bookmarktd.innerHTML = `<button>
-      ${isBookmarked ? window.bookmarkOnSVG : window.bookmarkOffSVG}</button>`;
+        /** @type {HTMLButtonElement} */
+        const btn = bookmarktd.children[0];
 
-      /** @type {HTMLButtonElement} */
-      const btn = bookmarktd.children[0];
-      btn.onclick = window.bookmarkClickHandler;
+        btn.addEventListener("click", window.bookmarkClickHandler);
 
-      btn.children[0].style.color = isBookmarked ? "#f3da35" : "";
+        btn.children[0].style.color = isBookmarked ? "#f3da35" : "";
+        btn.style.padding = "0.3em";
 
-      tr.appendChild(bookmarktd);
+        tr.appendChild(bookmarktd);
+      }
+
+      tr.style.display =
+        !bookmarked.includes(window.getTaskIDFromTR(tr)) && showOnlyBookmarked
+          ? "none"
+          : "table-row";
     }
   });
 }
+
+chrome.tabs.onActivated.addListener(async () => {
+  let [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+    url: "https://beta.programming.in.th/*",
+  });
+  if (tab != undefined) {
+    await toggleTheme();
+    await delay(2500);
+    await updateByTypes();
+    await toggleTheme();
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: addBookmarkIcon,
+    });
+  }
+});
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   let [tab] = await chrome.tabs.query({
