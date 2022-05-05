@@ -251,12 +251,12 @@ chrome.tabs.onActivated.addListener(async () => {
   if (tab != undefined) {
     await toggleTheme();
     await delay(2500);
-    await updateByTypes();
-    await toggleTheme();
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       function: addBookmarkIcon,
     });
+    await updateByTypes();
+    await toggleTheme();
   }
 });
 
@@ -269,12 +269,11 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   if (tab != undefined && changeInfo.status == "complete") {
     await toggleTheme();
     await delay(2500);
-
-    await updateByTypes();
-    await toggleTheme();
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       function: addBookmarkIcon,
     });
+    await updateByTypes();
+    await toggleTheme();
   }
 });
