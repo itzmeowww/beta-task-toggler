@@ -25,6 +25,9 @@ const tumso16 = document.getElementById("tumso16");
 const tumso17 = document.getElementById("tumso17");
 const tumso18 = document.getElementById("tumso18");
 
+/** @type {HTMLInputElement} */
+const bookmarkFeature = document.getElementById("bookmark-feature");
+
 randomTumsoOption.addEventListener("change", onAllTumsosChanged);
 
 for (let idx = 0; idx < allOptions.length; idx++) {
@@ -42,6 +45,10 @@ for (let idx = 0; idx < difficulty.length; idx++) {
 for (let idx = 0; idx < tumsos.length; idx++) {
   tumsos[idx].addEventListener("change", onTumsosChanged);
 }
+
+bookmarkFeature.addEventListener("change", () => {
+  chrome.storage.sync.set({ bookmarkFeatureOn: bookmarkFeature.checked });
+});
 
 randomPgOption.addEventListener("change", onPgChanged);
 selectAllSource[0].addEventListener("change", onAllSourcesChanged);
@@ -77,6 +84,12 @@ chrome.storage.sync.get("randomSources", function (res) {
   tumso16.checked = randomSources.tumso16;
   tumso17.checked = randomSources.tumso17;
   tumso18.checked = randomSources.tumso18;
+});
+chrome.storage.sync.get("bookmarkFeatureOn", (res) => {
+  /** @type {boolean} */
+  const bookmarkFeatureOn = res["bookmarkFeatureOn"];
+
+  bookmarkFeature.checked = bookmarkFeatureOn;
 });
 
 function onRandomSourcesChanged() {

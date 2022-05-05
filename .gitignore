@@ -1,1 +1,5 @@
 node_modules/
+.env
+# Typedefs does not need lockfiles
+package-lock.json
+yarn.lock

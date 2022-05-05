@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/chrome": "^0.0.184"
+  },
+  "scripts": {
+    "zip": "zip -r src src",
+    "dev": ". ./.env && mkdir -p $DEV_LOC && cp -r src/* $DEV_LOC"
+  }
+}

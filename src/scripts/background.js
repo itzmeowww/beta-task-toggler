@@ -27,6 +27,7 @@ chrome.runtime.onInstalled.addListener(() => {
         tumso17: true,
         tumso18: true,
       },
+      bookmarkFeatureOn: false,
       bookmarked: [],
       showOnlyBookmarked: false,
     },
@@ -131,7 +132,17 @@ function delay(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-function addBookmarkIcon() {
+async function addBookmarkIcon() {
+  // Experimental Feature, require user to activate it in settings
+  if (
+    !(await new Promise((resolve, _) => {
+      chrome.storage.sync.get("bookmarkFeatureOn", (result) => {
+        resolve(result["bookmarkFeatureOn"]);
+      });
+    }))
+  )
+    return;
+
   /** @type {HTMLTableSectionElement} */
   const tableHead = document.querySelector("table.css-1rwqhj9 > thead");
 
